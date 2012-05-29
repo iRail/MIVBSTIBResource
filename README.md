@@ -1,4 +1,4 @@
-MIVBSTIBResource
-================
+DeLijnResource
+==============
 
-MIVB/STIB Resource plug-in for The DataTank
+A The DataTank resource for MIVB/STIB
