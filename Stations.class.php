@@ -50,7 +50,7 @@ class MIVBSTIBStations extends AReader{
     }
 
     public function read(){
-		$stationDao = new MIVBStationDao();
+		$stationDao = new MIVBSTIBStationDao();
 		
 		if($this->longitude != null && $this->latitude != null) {
 			return $stationDao->getClosestStations($this->longitude, $this->latitude);
