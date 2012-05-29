@@ -71,8 +71,8 @@ class MIVBSTIBStationDao {
 			$station = array();
 			$station["id"] = $row["stop_id"];
 			$station["name"] = $row["stop_name"];
-			$station["longitude"] = $row["stop_lat"];
-			$station["latitude"] = $row["stop_lon"];
+			$station["latitude"] = $row["stop_lat"];
+			$station["longitude"] = $row["stop_lon"];
 			
 			$results[] = $station;
 		}
@@ -100,8 +100,8 @@ class MIVBSTIBStationDao {
 			$station = array();
 			$station["id"] = $row["stop_id"];
 			$station["name"] = $row["stop_name"];
-			$station["longitude"] = $row["stop_lat"];
-			$station["latitude"] = $row["stop_lon"];
+			$station["latitude"] = $row["stop_lat"];
+			$station["longitude"] = $row["stop_lon"];
 			
 			$results[] = $station;
 		}
@@ -132,8 +132,8 @@ class MIVBSTIBStationDao {
 			$station = array();
 			$station["id"] = $row["stop_id"];
 			$station["name"] = $row["stop_name"];
-			$station["longitude"] = $row["stop_lat"];
-			$station["latitude"] = $row["stop_lon"];
+			$station["latitude"] = $row["stop_lat"];
+			$station["longitude"] = $row["stop_lon"];
 			$station["distance"] = $row["distance"];
 			
 			$results[] = $station;
