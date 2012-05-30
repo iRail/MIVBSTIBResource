@@ -17,7 +17,8 @@ class MIVBSTIBArrivals extends AReader{
 	}
 
     public static function getParameters(){
-		return array();
+		return array("Offset" => "offset"
+					,"Rowcount" => "rowcount");
     }
 
     public static function getRequiredParameters(){
@@ -42,13 +43,17 @@ class MIVBSTIBArrivals extends AReader{
 			$this->hour = $val;
 		} else if ($key == "minute") {
 			$this->minute = $val;
+		} else if ($key == "offset") {
+			$this->offset = $val;
+		} else if ($key == "rowcount") {
+			$this->rowcount = $val;
 		}
     }
 
     public function read(){
 		$stopTimesDao = new MIVBSTIBStopTimesDao();
 	
-		return $stopTimesDao->getArrivals($this->stationid, $this->year, $this->month, $this->day, $this->hour, $this->minute);
+		return $stopTimesDao->getArrivals($this->stationid, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
     }
 
     public static function getDoc(){

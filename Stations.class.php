@@ -19,6 +19,7 @@ class MIVBSTIBStations extends AReader{
 		$this->longitude = null;
 		$this->latitude = null;
 		$this->name = null;
+		$this->id = null;
 		$this->offset = 0;
 		$this->rowcount = 1024;
 	}
@@ -27,6 +28,7 @@ class MIVBSTIBStations extends AReader{
 		return array("longitude" => "Longitude"
 						,"latitude" => "Latitude"
 						,"name" => "Name"
+						,"id" => "Id"
 						,"offset" => "Offeset"
 						,"rowcount" => "Rowcount");
     }
@@ -46,13 +48,17 @@ class MIVBSTIBStations extends AReader{
 			$this->offset = $val;
 		} else if ($key == "rowcount"){
 			$this->rowcount = $val;
+		} else if ($key == "id") {
+			$this->id = $val;
 		}
     }
 
     public function read(){
 		$stationDao = new MIVBSTIBStationDao();
 		
-		if($this->longitude != null && $this->latitude != null) {
+		if($this->id != null) {
+			return $stationDao->getStationById($this->id);
+		} else if($this->longitude != null && $this->latitude != null) {
 			return $stationDao->getClosestStations($this->longitude, $this->latitude);
 		} else if ($this->name != null) {
 			return $stationDao->getStationsByName($this->name, $this->offset, $this->rowcount);

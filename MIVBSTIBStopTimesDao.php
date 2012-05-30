@@ -9,6 +9,12 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 class MIVBSTIBStopTimesDao {
+
+	/*
+	 *	Timezone set to Europe/Brussels
+	 */
+	var $timezone = "Europe/Brussels";
+
 	/**
 	  * Query to get all departures of a given station on a given date and starting from a given time
 	  * @param int stationId
@@ -33,7 +39,7 @@ class MIVBSTIBStopTimesDao {
 											ON route.route_id = trip.route_id
 										JOIN mivbgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
-										WHERE times.stop_id = '0706'
+										WHERE times.stop_id = :stationid
 										AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 										AND calendar.start_date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 										  AND calendar.end_date >= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
@@ -47,7 +53,8 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
-										ORDER BY times.departure_time_t;";
+										ORDER BY times.departure_time_t
+										LIMIT :offset, :rowcount;";
 		
 	/**
 	  * Query to get all departures of a given station on a given date and starting from a given time
@@ -73,8 +80,8 @@ class MIVBSTIBStopTimesDao {
 											ON route.route_id = trip.route_id
 										JOIN mivbgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
-										WHERE times.stop_id = '0706'
-										AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
+										WHERE times.stop_id = :stationid
+										AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 										AND calendar.start_date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 										  AND calendar.end_date >= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 										  AND 
@@ -87,7 +94,8 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
-										ORDER BY times.departure_time_t;";
+										ORDER BY times.departure_time_t
+										LIMIT :offset, :rowcount;";
 																
 	/**
 	  *
@@ -99,8 +107,10 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Departures for a given station, date and starting from a given time
 	  */
-	public function getDepartures($stationId, $year, $month, $day, $hour, $minute) {	
-		$arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute);
+	public function getDepartures($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
+		date_default_timezone_set($this->timezone);
+		
+		$arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount);
 							
 		$query = $this->GET_DEPARTURES_QUERY;
 		
@@ -140,8 +150,10 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Arrivals for a given station, date and starting from a given time
 	  */
-	public function getArrivals($stationId, $year, $month, $day, $hour, $minute) {	
-		$arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute);
+	public function getArrivals($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
+		date_default_timezone_set($this->timezone);
+		
+		$arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount);
 		
 		$query = $this->GET_ARRIVALS_QUERY;
 		
@@ -181,7 +193,7 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array List of arguments that will be used in the SQL Query
 	 */
-	private function processArguments($stationId, $year, $month, $day, $hour, $minute) {
+	private function processArguments($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {
 		$dayOfTheWeek = date("l", mktime(0, 0, 0, $month, $day, $year));
 		
 		// Initialize on 0
@@ -226,7 +238,9 @@ class MIVBSTIBStopTimesDao {
 							":thursday" => $thursday, 
 							":friday" => $friday, 
 							":saturday" => $saturday, 
-							":sunday" => $sunday);
+							":sunday" => $sunday,
+							":offset" => intval(urldecode($offset)), 
+							":rowcount" => intval(urldecode($rowcount)));
 							
 		return $arguments;
 	}
