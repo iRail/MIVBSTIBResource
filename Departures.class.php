@@ -11,53 +11,54 @@
 include_once('MIVBSTIBStopTimesDao.php');
  
 class MIVBSTIBDepartures extends AReader{
-
-	public function __construct($package, $resource, $RESTparameters) {
-		parent::__construct($package, $resource, $RESTparameters);
-	}
+    private $offset;
+    private $rowcount;
+    public function __construct($package, $resource, $RESTparameters) {
+        parent::__construct($package, $resource, $RESTparameters);
+    }
 
     public static function getParameters(){
-		return array("Offset" => "offset"
-					,"Rowcount" => "rowcount");
+        return array("stationid" => "Station ID that can be found in the Stations resource",
+                     "year" => "Year",
+                     "month" => "Month",
+                     "day" => "Day"
+                     ,"hour" => "Hour"
+                     ,"minute" => "Minute"
+                     ,"offset" => "Offset"
+                     ,"rowcount" => "Rowcount");
     }
 
     public static function getRequiredParameters(){
-		return array("Station ID" => "stationid",
-		"Year" => "year",
-		"Month" => "month",
-		"Day" => "day"
-		,"Hour" => "hour"
-		,"Minute" => "minute");
+        return array("stationid","year","month","day","hour","minute");
     }
 
     public function setParameter($key,$val){
         if ($key == "stationid"){
-			$this->stationid = $val;
-		} else if ($key == "year"){
-			$this->year = $val;
-		} else if ($key == "month"){
-			$this->month = $val;
-		} else if ($key == "day") {
-			$this->day = $val;
-		} else if ($key == "hour") {
-			$this->hour = $val;
-		} else if ($key == "minute") {
-			$this->minute = $val;
-		} else if ($key == "offset") {
-			$this->offset = $val;
-		} else if ($key == "rowcount") {
-			$this->rowcount = $val;
-		}
+            $this->stationid = $val;
+        } else if ($key == "year"){
+            $this->year = $val;
+        } else if ($key == "month"){
+            $this->month = $val;
+        } else if ($key == "day") {
+            $this->day = $val;
+        } else if ($key == "hour") {
+            $this->hour = $val;
+        } else if ($key == "minute") {
+            $this->minute = $val;
+        } else if ($key == "offset") {
+            $this->offset = $val;
+        } else if ($key == "rowcount") {
+            $this->rowcount = $val;
+        }
     }
 
     public function read(){
-		$stopTimesDao = new MIVBSTIBStopTimesDao();
-	
-		return $stopTimesDao->getDepartures($this->stationid, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+        $stopTimesDao = new MIVBSTIBStopTimesDao();
+        return $stopTimesDao->getDepartures($this->stationid, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
     }
 
     public static function getDoc(){
-		return "This resource contains the Departures for a certain Station for a certain date and time from MIVB/STIB.";
+        return "This resource contains the Departures for a certain Station for a certain date and time from MIVB/STIB.";
     }
 }
 
