@@ -13,7 +13,7 @@ class MIVBSTIBStationDao {
 	  * Query to get all stations ordered alphabetically
 	  */
 	private $GET_ALL_STATIONS_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
-								FROM mivbgtfs_stops
+								FROM mivbstibgtfs_stops
 								ORDER BY stop_name ASC";
 								
 	/**
@@ -21,7 +21,7 @@ class MIVBSTIBStationDao {
 	  * @param string name
 	  */
 	private $GET_STATIONS_BY_NAME_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
-								FROM mivbgtfs_stops
+								FROM mivbstibgtfs_stops
 								WHERE lower(stop_name) LIKE :name
 								ORDER BY stop_name ASC";
 
@@ -39,7 +39,7 @@ class MIVBSTIBStationDao {
 												   * sin( radians( stop_lat ) ) 
 												 )
 								   ) AS distance 
-								FROM mivbgtfs_stops 
+								FROM mivbstibgtfs_stops 
 								HAVING distance < 250000
 								ORDER BY distance";
 								
@@ -48,7 +48,7 @@ class MIVBSTIBStationDao {
 	  * @param int id
 	  */
 	private $GET_STATION_BY_ID = "SELECT stop_id, stop_name, stop_lat, stop_lon 
-											FROM mivbgtfs_stops
+											FROM mivbstibgtfs_stops
 											WHERE stop_id = :id;";
 								
 	/**

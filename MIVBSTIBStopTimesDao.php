@@ -3,7 +3,7 @@
 /**
  * This is a class which will return the information with the latest departures from a certain station
  * 
- * @package packages/LiveBoard
+ * @package packages/StopTimesDao
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Maarten Cautreels <maarten@flatturtle.com>
@@ -32,12 +32,12 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $sunday Sunday 
 	  */
 	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
-										FROM mivbgtfs_stop_times times
-										JOIN mivbgtfs_trips trip
+										FROM mivbstibgtfs_stop_times times
+										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
-										JOIN mivbgtfs_routes route
+										JOIN mivbstibgtfs_routes route
 											ON route.route_id = trip.route_id
-										JOIN mivbgtfs_calendar calendar
+										JOIN mivbstibgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
 										WHERE times.stop_id = :stationid
 										AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
@@ -72,13 +72,13 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $saturday Saturday 
 	  * @param int $sunday Sunday 
 	  */
-	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
-										FROM mivbgtfs_stop_times times
-										JOIN mivbgtfs_trips trip
+	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+										FROM mivbstibgtfs_stop_times times
+										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
-										JOIN mivbgtfs_routes route
+										JOIN mivbstibgtfs_routes route
 											ON route.route_id = trip.route_id
-										JOIN mivbgtfs_calendar calendar
+										JOIN mivbstibgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
 										WHERE times.stop_id = :stationid
 										AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
@@ -94,7 +94,7 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
-										ORDER BY times.departure_time_t
+										ORDER BY times.arrival_time_t
 										LIMIT :offset, :rowcount;";
 																
 	/**
@@ -163,19 +163,19 @@ class MIVBSTIBStopTimesDao {
 		foreach($result as &$row){
 			$arrival = array();
 			
-			$departure["short_name"] = $row["route_short_name"];
-			$departure["long_name"] = $row["route_long_name"];
-			$departure["color"] = $row["route_color"];
-			$departure["text_color"]  = $row["route_text_color"];
-			$departure["direction"] = $row["direction_id"];
+			$arrival["short_name"] = $row["route_short_name"];
+			$arrival["long_name"] = $row["route_long_name"];
+			$arrival["color"] = $row["route_color"];
+			$arrival["text_color"]  = $row["route_text_color"];
+			$arrival["direction"] = $row["direction_id"];
 
-			$split = explode(':', $row["departure_time_t"]);
+			$split = explode(':', $row["arrival_time_t"]);
 			$hour = $split[0];
 			$minute = $split[1];
 			
 			$date = mktime($hour, $minute, 0, $month, $day, $year);
-			$departure["iso8601"] = date("c", $date);
-			$departure["time"] = date("U", $date);
+			$arrival["iso8601"] = date("c", $date);
+			$arrival["time"] = date("U", $date);
 			
 			$arrivals[] = $arrival;
 		}

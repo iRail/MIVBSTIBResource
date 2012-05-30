@@ -14,6 +14,9 @@ class MIVBSTIBArrivals extends AReader{
 
 	public function __construct($package, $resource, $RESTparameters) {
 		parent::__construct($package, $resource, $RESTparameters);
+		
+		$this->offset = 0;
+		$this->rowcount = 1024;
 	}
 
     public static function getParameters(){
