@@ -31,7 +31,7 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $saturday Saturday 
 	  * @param int $sunday Sunday 
 	  */
-	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -72,7 +72,7 @@ class MIVBSTIBStopTimesDao {
 	  * @param int $saturday Saturday 
 	  * @param int $sunday Sunday 
 	  */
-	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -121,7 +121,7 @@ class MIVBSTIBStopTimesDao {
             $departure = array();
 			
             $departure["short_name"] = $row["route_short_name"];
-            $departure["long_name"] = $row["route_long_name"];
+            $departure["long_name"] = $row["trip_headsign"];
             $departure["color"] = $row["route_color"];
             $departure["text_color"]  = $row["route_text_color"];
             $departure["direction"] = $row["direction_id"];
@@ -164,7 +164,7 @@ class MIVBSTIBStopTimesDao {
             $arrival = array();
 
 			$arrival["short_name"] = $row["route_short_name"];
-			$arrival["long_name"] = $row["route_long_name"];
+			$arrival["long_name"] = $row["trip_headsign"];
 			$arrival["color"] = $row["route_color"];
 			$arrival["text_color"]  = $row["route_text_color"];
 			$arrival["direction"] = $row["direction_id"];
