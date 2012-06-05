@@ -20,7 +20,7 @@ class MIVBSTIBArrivals extends AReader{
 	}
 
     public static function getParameters(){
-        return array("stationname" => "Station Name that can be found in the Stations resource",
+        return array("stationidentifier" => "Station Name or ID that can be found in the Stations resource",
                      "year" => "Year",
                      "month" => "Month",
                      "day" => "Day"
@@ -31,12 +31,12 @@ class MIVBSTIBArrivals extends AReader{
     }
 
     public static function getRequiredParameters(){
-        return array("stationname","year","month","day","hour","minute");
+        return array("stationidentifier","year","month","day","hour","minute");
     }
 
     public function setParameter($key,$val){
-        if ($key == "stationname"){
-            $this->stationname = $val;
+        if ($key == "stationidentifier"){
+            $this->stationidentifier = $val;
         } else if ($key == "year"){
             $this->year = $val;
         } else if ($key == "month"){
@@ -57,7 +57,11 @@ class MIVBSTIBArrivals extends AReader{
     public function read(){
         $stopTimesDao = new MIVBSTIBStopTimesDao();
 	
-        return $stopTimesDao->getArrivals($this->stationid, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+        if(is_numeric($this->stationidentifier)) {
+			return $stopTimesDao->getArrivalsByID($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+		} else {
+			return $stopTimesDao->getArrivalsByName($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+		}
     }
 
     public static function getDoc(){
