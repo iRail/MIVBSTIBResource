@@ -17,7 +17,7 @@ class MIVBSTIBStopTimesDao {
 
 	/**
 	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param int stationId
+	  * @param int stationName
 	  * @param int $year The Year (Required)
 	  * @param int $month The Month (Required)
 	  * @param int $day The Day (Required)
@@ -39,7 +39,9 @@ class MIVBSTIBStopTimesDao {
 											ON route.route_id = trip.route_id
 										JOIN mivbstibgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
-										WHERE times.stop_id = :stationid
+										INNER JOIN mivbstibgtfs_stops stop
+											ON stop.stop_name = :stationName
+										WHERE times.stop_id = stop.stop_id
 										AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 										AND calendar.start_date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 										  AND calendar.end_date >= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
@@ -58,7 +60,7 @@ class MIVBSTIBStopTimesDao {
 		
 	/**
 	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param int stationId
+	  * @param int stationName
 	  * @param int $year The Year (Required)
 	  * @param int $month The Month (Required)
 	  * @param int $day The Day (Required)
@@ -80,7 +82,9 @@ class MIVBSTIBStopTimesDao {
 											ON route.route_id = trip.route_id
 										JOIN mivbstibgtfs_calendar calendar
 											ON calendar.service_id = trip.service_id
-										WHERE times.stop_id = :stationid
+										INNER JOIN mivbstibgtfs_stops stop
+											ON stop.stop_name = :stationName
+										WHERE times.stop_id = stop.stop_id
 										AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 										AND calendar.start_date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 										  AND calendar.end_date >= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
@@ -99,7 +103,7 @@ class MIVBSTIBStopTimesDao {
 																
     /**
      *
-     * @param int $stationId The Unique identifier of a station (Required)
+     * @param int $stationName The Name of a station (Required)
      * @param int $year The Year (Required)
      * @param int $month The Month (Required)
      * @param int $day The Day (Required)
@@ -107,10 +111,10 @@ class MIVBSTIBStopTimesDao {
      * @param int $minute The Minute (Required)
      * @return array A List of Departures for a given station, date and starting from a given time
      */
-    public function getDepartures($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
+    public function getDepartures($stationName, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
         date_default_timezone_set($this->timezone);
 		
-        $arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount);
+        $arguments = $this->processArguments($stationName, $year, $month, $day, $hour, $minute, $offset, $rowcount);
 							
         $query = $this->GET_DEPARTURES_QUERY;
 		
@@ -150,10 +154,10 @@ class MIVBSTIBStopTimesDao {
      * @param int $minute The Minute (Required)
      * @return array A List of Arrivals for a given station, date and starting from a given time
      */
-    public function getArrivals($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
+    public function getArrivals($stationName, $year, $month, $day, $hour, $minute, $offset, $rowcount) {	
         date_default_timezone_set($this->timezone);
 		
-        $arguments = $this->processArguments($stationId, $year, $month, $day, $hour, $minute, $offset, $rowcount);
+        $arguments = $this->processArguments($stationName, $year, $month, $day, $hour, $minute, $offset, $rowcount);
 		
         $query = $this->GET_ARRIVALS_QUERY;
 		
@@ -193,7 +197,7 @@ class MIVBSTIBStopTimesDao {
      * @param int $minute The Minute (Required)
      * @return array List of arguments that will be used in the SQL Query
      */
-    private function processArguments($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {
+    private function processArguments($stationName, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {
         $dayOfTheWeek = date("l", mktime(0, 0, 0, $month, $day, $year));
 		
         // Initialize on 0
@@ -223,7 +227,7 @@ class MIVBSTIBStopTimesDao {
                 break;
         }
 	
-        $arguments = array(":stationid" => urldecode($stationId), 
+        $arguments = array(":stationName" => urldecode($stationName), 
                            ":year" => urldecode($year), 
                            ":month" => urldecode($month), 
                            ":day" => urldecode($day), 
