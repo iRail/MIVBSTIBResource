@@ -55,6 +55,10 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
+										AND (SELECT count(time.stop_id) 
+												FROM  mivbstibgtfs_stop_times time
+												WHERE time.trip_id = trip.trip_id
+												AND time.arrival_time_t > times.departure_time_t) > 0
 										ORDER BY times.departure_time_t
 										LIMIT :offset, :rowcount;";
 										
@@ -96,6 +100,10 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
+										AND (SELECT count(time.stop_id) 
+												FROM  mivbstibgtfs_stop_times time
+												WHERE time.trip_id = trip.trip_id
+												AND time.arrival_time_t > times.departure_time_t) > 0
 										ORDER BY times.departure_time_t
 										LIMIT :offset, :rowcount;";
 		
@@ -139,6 +147,10 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
+										AND (SELECT count(time.stop_id) 
+												FROM  mivbstibgtfs_stop_times time
+												WHERE time.trip_id = trip.trip_id
+												AND time.arrival_time_t > times.departure_time_t) > 0
 										ORDER BY times.arrival_time_t
 										LIMIT :offset, :rowcount;";
 										
@@ -180,6 +192,10 @@ class MIVBSTIBStopTimesDao {
 											OR calendar.saturday = :saturday
 											OR calendar.sunday = :sunday
 										  )
+										AND (SELECT count(time.stop_id) 
+												FROM  mivbstibgtfs_stop_times time
+												WHERE time.trip_id = trip.trip_id
+												AND time.arrival_time_t > times.departure_time_t) > 0
 										ORDER BY times.arrival_time_t
 										LIMIT :offset, :rowcount;";
 																
