@@ -8,7 +8,14 @@
  * @license AGPLv3
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
+ 
+include_once("custom/packages/MIVBSTIB/Config.class.php");
+
 class MIVBSTIBStopTimesDao {
+
+	public function __construct() {
+		R::setup(MIVBSTIBConfig::$DB, MIVBSTIBConfig::$DB_USER, MIVBSTIBConfig::$DB_PASSWORD);
+	}
 
     /*
      *	Timezone set to Europe/Brussels
