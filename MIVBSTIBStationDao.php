@@ -8,15 +8,7 @@
  * @license AGPLv3
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
- 
-include_once("custom/packages/MIVBSTIB/Config.class.php");
-
 class MIVBSTIBStationDao {
-
-	public function __construct() {
-		R::setup(MIVBSTIBConfig::$DB, MIVBSTIBConfig::$DB_USER, MIVBSTIBConfig::$DB_PASSWORD);
-	}
-
 	/**
 	  * Query to get all stations ordered alphabetically
 	  */
