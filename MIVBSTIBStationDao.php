@@ -122,7 +122,7 @@ class MIVBSTIBStationDao {
      * @return array A List of Stations with given name
      */
     public function getStationsByName($name, $offset=0, $rowcount=1024) {
-        $arguments = array(":name" => urldecode(strtolower('%' . $name . '%')), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
+        $arguments = array(":name" =>'%' . urldecode(strtolower( $name )) . '%', ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
         $query = $this->GET_STATIONS_BY_NAME_QUERY;
 
         $query .= $this->LIMIT_QUERY;
