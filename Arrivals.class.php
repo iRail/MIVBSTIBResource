@@ -12,12 +12,12 @@ include_once('MIVBSTIBStopTimesDao.php');
  
 class MIVBSTIBArrivals extends AReader{
 
-	public function __construct($package, $resource, $RESTparameters) {
-		parent::__construct($package, $resource, $RESTparameters);
+    public function __construct($package, $resource, $RESTparameters) {
+        parent::__construct($package, $resource, $RESTparameters);
 		
-		$this->offset = 0;
-		$this->rowcount = 1024;
-	}
+        $this->offset = 0;
+        $this->rowcount = 1024;
+    }
 
     public static function getParameters(){
         return array("stationidentifier" => "Station Name or ID that can be found in the Stations resource",
@@ -58,10 +58,10 @@ class MIVBSTIBArrivals extends AReader{
         $stopTimesDao = new MIVBSTIBStopTimesDao();
 	
         if(is_numeric($this->stationidentifier)) {
-			return $stopTimesDao->getArrivalsByID($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
-		} else {
-			return $stopTimesDao->getArrivalsByName($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
-		}
+            return $stopTimesDao->getArrivalsByID($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+        } else {
+            return $stopTimesDao->getArrivalsByName($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+        }
     }
 
     public static function getDoc(){
