@@ -15,23 +15,23 @@ class MIVBSTIBStopTimesDao {
      */
     var $timezone = "Europe/Brussels";
 
-	/**
-	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param String stationIdentifier
-	  * @param int $year The Year (Required)
-	  * @param int $month The Month (Required)
-	  * @param int $day The Day (Required)
-	  * @param int $hour The Hour (Required)
-	  * @param int $minute The Minute (Required)
-	  * @param int $monday Monday
-	  * @param int $tuesday Tuesday
-	  * @param int $wednesday Wednesday
-	  * @param int $thursday Thursday
-	  * @param int $friday Friday
-	  * @param int $saturday Saturday
-	  * @param int $sunday Sunday
-	  */
-	private $GET_DEPARTURES_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+    /**
+     * Query to get all departures of a given station on a given date and starting from a given time
+     * @param String stationIdentifier
+     * @param int $year The Year (Required)
+     * @param int $month The Month (Required)
+     * @param int $day The Day (Required)
+     * @param int $hour The Hour (Required)
+     * @param int $minute The Minute (Required)
+     * @param int $monday Monday
+     * @param int $tuesday Tuesday
+     * @param int $wednesday Wednesday
+     * @param int $thursday Thursday
+     * @param int $friday Friday
+     * @param int $saturday Saturday
+     * @param int $sunday Sunday
+     */
+    private $GET_DEPARTURES_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -58,23 +58,23 @@ class MIVBSTIBStopTimesDao {
 										ORDER BY times.departure_time_t
 										LIMIT :offset, :rowcount;";
 
-	/**
-	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param int stationIdentifier
-	  * @param int $year The Year (Required)
-	  * @param int $month The Month (Required)
-	  * @param int $day The Day (Required)
-	  * @param int $hour The Hour (Required)
-	  * @param int $minute The Minute (Required)
-	  * @param int $monday Monday
-	  * @param int $tuesday Tuesday
-	  * @param int $wednesday Wednesday
-	  * @param int $thursday Thursday
-	  * @param int $friday Friday
-	  * @param int $saturday Saturday
-	  * @param int $sunday Sunday
-	  */
-	private $GET_DEPARTURES_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+    /**
+     * Query to get all departures of a given station on a given date and starting from a given time
+     * @param int stationIdentifier
+     * @param int $year The Year (Required)
+     * @param int $month The Month (Required)
+     * @param int $day The Day (Required)
+     * @param int $hour The Hour (Required)
+     * @param int $minute The Minute (Required)
+     * @param int $monday Monday
+     * @param int $tuesday Tuesday
+     * @param int $wednesday Wednesday
+     * @param int $thursday Thursday
+     * @param int $friday Friday
+     * @param int $saturday Saturday
+     * @param int $sunday Sunday
+     */
+    private $GET_DEPARTURES_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -99,23 +99,23 @@ class MIVBSTIBStopTimesDao {
 										ORDER BY times.departure_time_t
 										LIMIT :offset, :rowcount;";
 
-	/**
-	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param int stationIdentifier
-	  * @param int $year The Year (Required)
-	  * @param int $month The Month (Required)
-	  * @param int $day The Day (Required)
-	  * @param int $hour The Hour (Required)
-	  * @param int $minute The Minute (Required)
-	  * @param int $monday Monday
-	  * @param int $tuesday Tuesday
-	  * @param int $wednesday Wednesday
-	  * @param int $thursday Thursday
-	  * @param int $friday Friday
-	  * @param int $saturday Saturday
-	  * @param int $sunday Sunday
-	  */
-	private $GET_ARRIVALS_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+    /**
+     * Query to get all departures of a given station on a given date and starting from a given time
+     * @param int stationIdentifier
+     * @param int $year The Year (Required)
+     * @param int $month The Month (Required)
+     * @param int $day The Day (Required)
+     * @param int $hour The Hour (Required)
+     * @param int $minute The Minute (Required)
+     * @param int $monday Monday
+     * @param int $tuesday Tuesday
+     * @param int $wednesday Wednesday
+     * @param int $thursday Thursday
+     * @param int $friday Friday
+     * @param int $saturday Saturday
+     * @param int $sunday Sunday
+     */
+    private $GET_ARRIVALS_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -142,23 +142,23 @@ class MIVBSTIBStopTimesDao {
 										ORDER BY times.arrival_time_t
 										LIMIT :offset, :rowcount;";
 
-	/**
-	  * Query to get all departures of a given station on a given date and starting from a given time
-	  * @param int stationIdentifier
-	  * @param int $year The Year (Required)
-	  * @param int $month The Month (Required)
-	  * @param int $day The Day (Required)
-	  * @param int $hour The Hour (Required)
-	  * @param int $minute The Minute (Required)
-	  * @param int $monday Monday
-	  * @param int $tuesday Tuesday
-	  * @param int $wednesday Wednesday
-	  * @param int $thursday Thursday
-	  * @param int $friday Friday
-	  * @param int $saturday Saturday
-	  * @param int $sunday Sunday
-	  */
-	private $GET_ARRIVALS_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+    /**
+     * Query to get all departures of a given station on a given date and starting from a given time
+     * @param int stationIdentifier
+     * @param int $year The Year (Required)
+     * @param int $month The Month (Required)
+     * @param int $day The Day (Required)
+     * @param int $hour The Hour (Required)
+     * @param int $minute The Minute (Required)
+     * @param int $monday Monday
+     * @param int $tuesday Tuesday
+     * @param int $wednesday Wednesday
+     * @param int $thursday Thursday
+     * @param int $friday Friday
+     * @param int $saturday Saturday
+     * @param int $sunday Sunday
+     */
+    private $GET_ARRIVALS_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 										FROM mivbstibgtfs_stop_times times
 										JOIN mivbstibgtfs_trips trip
 											ON trip.trip_id = times.trip_id
@@ -205,7 +205,7 @@ class MIVBSTIBStopTimesDao {
         return $this->parseStopTimes($result, $year, $month, $day);
     }
 
-	/**
+    /**
      *
      * @param String $stationId The ID of a station (Required)
      * @param int $year The Year (Required)
@@ -246,10 +246,10 @@ class MIVBSTIBStopTimesDao {
 
         $result = R::getAll($query, $arguments);
 
-		return $this->parseStopTimes($result, $year, $month, $day);
+        return $this->parseStopTimes($result, $year, $month, $day);
     }
 
-	/**
+    /**
      *
      * @param int $stationId The Unique identifier of a station (Required)
      * @param int $year The Year (Required)
@@ -267,7 +267,7 @@ class MIVBSTIBStopTimesDao {
         $query = $this->GET_ARRIVALS_BY_ID_QUERY;
 
         $result = R::getAll($query, $arguments);
-		return $this->parseStopTimes($result, $year, $month, $day);
+        return $this->parseStopTimes($result, $year, $month, $day);
     }
 
     /**
@@ -332,22 +332,22 @@ class MIVBSTIBStopTimesDao {
         return $arguments;
     }
 
-	private function parseStopTimes($result, $year, $month, $day) {
-		$stoptimes = array();
+    private function parseStopTimes($result, $year, $month, $day) {
+        $stoptimes = array();
         foreach($result as &$row){
             $stoptime = array();
-
+            $stoptime["type"] = $row["route_type"];
             $stoptime["short_name"] = $row["route_short_name"];
             $stoptime["long_name"] = $row["trip_headsign"];
             $stoptime["color"] = $row["route_color"];
             $stoptime["text_color"]  = $row["route_text_color"];
             $stoptime["direction"] = $row["direction_id"];
 
-			if(isset($row["departure_time_t"])) {
-				$timeString =  $row["departure_time_t"];
-			} else {
-				$timeString =  $row["arrival_time_t"];
-			}
+            if(isset($row["departure_time_t"])) {
+                $timeString =  $row["departure_time_t"];
+            } else {
+                $timeString =  $row["arrival_time_t"];
+            }
 
             $split = explode(':', $timeString);
             $hour = $split[0];
@@ -361,5 +361,5 @@ class MIVBSTIBStopTimesDao {
         }
 
         return $stoptimes;
-	}
+    }
 }
